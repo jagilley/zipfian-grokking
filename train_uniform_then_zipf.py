@@ -1,21 +1,18 @@
 """
 Uniform Pretrain → Zipfian Fine-tune Experiment
 
-Tests Dhruv Batra's hypothesis: if a model first groks on uniformly-sampled data
-(reaching the Fourier solution), does it remain stable when we switch to Zipfian
-weighting? Or does the Fourier solution collapse because it's a saddle point
-under Zipfian loss?
+Tests whether the Fourier solution is stable under Zipfian pressure: if a model
+first groks on uniformly-sampled data (reaching the Fourier solution), does it
+remain stable when we switch to Zipfian weighting? Or does the Fourier solution
+collapse because it's a saddle point under Zipfian loss?
 
 Protocol:
   Phase 1: Train with uniform weights (zipf_exponent=0) until 100% test accuracy
   Phase 2: Switch to Zipfian weights (zipf_exponent=s) and continue training
 
-If Dhruv is right: the model stays at the Fourier solution (no collapse).
+If the solution is stable: the model stays at the Fourier solution (no collapse).
 If the saddle point theory is right: small perturbations in θ_M grow exponentially
 even starting from the converged Fourier solution, causing collapse.
-
-Based on train_inverse_primary.py baseline (no ICM, just task loss).
-Forward/inverse models removed since their weights are zero.
 """
 
 import jax
