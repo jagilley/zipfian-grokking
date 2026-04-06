@@ -1,19 +1,19 @@
-# Zipfian grokking & interaction as supervision
+# Zipfian grokking
 
-This repository contains code and essays for two connected lines of research on eliciting generalization in neural networks using a toy problem based on modular arithmetic with Zipfian-weighted loss.
+This repository contains code and essays for an ongoing research program on eliciting generalization in neural networks, centered on a toy problem we call *Zipfian grokking*: modular arithmetic with Zipf-weighted loss. The Zipfian weighting creates a controllable tension between memorization and generalization, making it a useful testbed for new methods of pushing models toward deeper abstractions.
 
 ## Essays
 
-1. **[Zipfian grokking](essays/zipfian_grokking.md)** — We modify the data distribution of a standard modular addition grokking setup to follow Zipf's Law, creating persistent instability where models oscillate between generalization and memorization. The Fourier solution becomes a saddle point under Zipfian pressure: models repeatedly discover it and are expelled from it, producing Sisyphean dynamics.
+1. **[Zipfian grokking](essays/zipfian_grokking.md)** — Introduces the toy problem. Weighting the loss by Zipf's Law turns the Fourier solution into a saddle point, producing Sisyphean dynamics: models repeatedly discover the correct solution and are expelled from it. We characterize the instability as a relaxation oscillator and confirm it experimentally.
 
-2. **[Interaction as supervision](essays/interaction_as_supervision.md)** — We show that auxiliary inverse dynamics objectives can guide models toward discovering Fourier structure without explicit instruction. Inverse models create a strict selection pressure for structured representations that forward models do not. We also demonstrate autonomous symmetry discovery: a tournament between transformation families identifies translations as the most learnable symmetry, matching theoretical expectations.
+2. **[Interaction as supervision](essays/interaction_as_supervision.md)** — Uses the same toy problem to test whether auxiliary inverse dynamics objectives can stabilize generalization under Zipfian pressure. Inverse models create a strict selection pressure for Fourier structure that forward models do not. We also show that a pairwise tournament can autonomously discover which transformation families are most learnable, without being told anything about Fourier structure.
 
 ## Repository structure
 
 ```
 ├── essays/
-│   ├── zipfian_grokking.md              # Essay 1
-│   └── interaction_as_supervision.md     # Essay 2
+│   ├── zipfian_grokking.md              # Essay 1: the toy problem
+│   └── interaction_as_supervision.md     # Essay 2: ICM and symmetry discovery
 ├── train_grokking_zipfian.py             # Core Zipfian grokking training
 ├── run_ablation.py                       # Multi-seed ablation study
 ├── train_uniform_then_zipf.py            # Two-phase saddle point test
@@ -40,9 +40,9 @@ tqdm
 
 ## Reproducing the experiments
 
-### Essay 1: Zipfian grokking
+### The toy problem and its dynamics
 
-**Zipfian ablation** (Figure 1 in the essay): train at multiple Zipf exponents and compare dynamics.
+**Zipfian ablation** (Figure 1 in essay 1): train at multiple Zipf exponents and compare dynamics.
 
 ```bash
 python run_ablation.py \
@@ -72,7 +72,7 @@ python train_uniform_then_zipf.py \
   --save_dir ./saddle_test
 ```
 
-### Essay 2: Interaction as supervision
+### Inverse dynamics and symmetry discovery
 
 **Inverse-primary training** (the core ICM experiment):
 
